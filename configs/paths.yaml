@@ -1,0 +1,39 @@
+vod:
+  base_path: "G:/data/VOD/AMSR-VOD/MCCA-VOD(KuCX)/Asc/01h5"
+
+  # 文件名模板：{date} 会被替换为 YYYYMMDD
+  filename_templates:
+    - "{date}.h5"
+
+  grid:
+    rows: 1800
+    cols: 3600
+
+  # mat变量名 -> 标准键名（建议统一成 tau_频段_极化）
+  # 你原始mat里是 ku_vod_H 这种，这里就这么配
+  var_map:
+    ku_vod_H: "tau_Ku_H"
+    ku_vod_V: "tau_Ku_V"
+    x_vod_H: "tau_X_H"
+    x_vod_V: "tau_X_V"
+    c_vod_H: "tau_C_H"
+    c_vod_V: "tau_C_V"
+
+  # QC变量名（mat里叫 QC）
+  qc_var: "QC"
+
+qc:
+  # 允许哪些vod_qc_flag作为“有效”
+  # 最保守：只保留0（Good）
+  keep_flags: [0]
+
+  # vod_qc_flag定义（与你原脚本一致）
+  # 0 Good
+  # 1 Frozen
+  # 2 RFI detected (polarization)
+  # 3 Medium RFI (spectral bits 2-3 == 01)
+  # 4 Severe RFI (spectral bits 2-3 == 10)
+  # 5 Snow/Ice >5%
+  # 6 Fill or NaN
+  fill_value_flag: 6
+  fill_qc_value: 255

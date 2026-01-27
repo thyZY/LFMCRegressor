@@ -1,0 +1,68 @@
+grid:
+  rows: 1800
+  cols: 3600
+  lat0: 89.95
+  lon0: -179.95
+  res: 0.1
+
+canopy_height:
+  path: G:/data/CanopyHeight/CH.h5
+  var: Hveg
+  out_col: canopy_height
+  description: Static canopy height (m).
+
+agb:
+  dir: G:/data/ESACCI AGB/h5
+  static_year: 2015
+  filename_template: GlobBiomass{year}.h5
+  var: AGB
+  out_col: agb
+  description: Static AGB (use 2015 as static proxy).
+
+igbp:
+  dir: G:/data/MCD12C1 CMG/01Degree/h5
+  filename_template: "{year}001.h5"
+  vars:
+    - ENF
+    - EBF
+    - DNF
+    - DBF
+    - MF
+    - CSH
+    - OSH
+    - WSA
+    - SAV
+    - GRA
+    - WET
+    - CRO
+    - URB
+    - CVM
+    - SNO
+    - BAR
+    - WAT
+  prefix: igbp_
+  description: Annual IGBP fractions (0-1) at 0.1°.
+
+lai:
+  dir: G:/data/GLASS LAI/01nc
+  filename_template: "{date}.h5"
+  var: LAI
+  out_col: lai
+  temporal: 8day
+  description: GLASS LAI 8-day; for a target day, use the file whose date is the 8-day window start.
+
+fvc:
+  dir: G:/data/GLASS FVC/01nc
+  filename_template: "{date}.h5"
+  var: FVC
+  out_col: fvc
+  temporal: 8day
+  description: GLASS FVC 8-day; same indexing rule as LAI.
+
+lst:
+  dir: G:/data/LST_yupei/01h5
+  filename_template: "{date}.h5"
+  var: LST_Day
+  out_col: lst
+  temporal: daily
+  description: Daily LST (Kelvin).

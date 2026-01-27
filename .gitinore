@@ -1,0 +1,22 @@
+# python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.venv/
+venv/
+
+# jupyter
+.ipynb_checkpoints/
+
+# data / outputs (按你项目实际改)
+figs/
+*.parquet
+*.nc
+*.h5
+*.hdf5
+
+# os
+.DS_Store
+Thumbs.db

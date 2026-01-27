@@ -1,0 +1,56 @@
+lfmc:
+  raw_path: "G:/data/Globe LFMC/Globe-LFMC-2.0 final.xlsx"
+  sheet_name: "LFMC data"
+
+  # 输出路径（可按你习惯改）
+  out_dir: "G:/data/Globe LFMC/processed"
+  out_std_name: "lfmc_std.parquet"
+  out_dedup_name: "lfmc_site_day.parquet"
+  out_report_name: "lfmc_qc_report.json"
+  out_grid_day_name: "lfmc_grid_day_0p1.parquet"
+
+  # 是否把时间统一到日期（日尺度）
+  normalize_to_date: true
+
+  # 同站点同日重复观测合并策略：median / mean / last
+  dedup_strategy: "median"
+
+  # ---------- 字段映射（允许为空，代码会兜底猜测） ----------
+  # 如果你明确知道列名，填在这里最稳
+  columns:
+    sorting_id: "Sorting ID"
+    site_name: "Site Name"
+    lat: "Latitude"
+    lon: "Longitude"
+    date: "Sampling Date (YYYYMMDD)"
+    time: "Sampling Time (hh:mm)"
+
+    lfmc: "LFMC (%)"
+
+    # 这两个字段在论文中存在（如果你的表里列名略有不同，可改）
+    extra_info_flag: "Extra Info Flag"
+    isolated_iforest: "Isolated data point"
+
+    # 可选元数据列（不影响清洗主流程）
+    species: "Species collected"
+    functional_type: "Species functional type"
+    individual_or_mean: "Individual or mean"
+    protocol: "Protocol"
+    source: "Database"
+
+  # ---------- 基础合理范围 ----------
+  lfmc_min: 0
+  lfmc_max: 400
+
+  # ---------- 文本关键词：从 extra_info_flag 提取“提供者疑似异常提示” ----------
+  # 这里是弱提示，不删数据，只做 provider_suspect_flag
+  suspect_keywords:
+    - "outlier"
+    - "anomal"
+    - "error"
+    - "suspect"
+    - "dead"
+    - "flower"
+    - "bud"
+    - "wrong"
+    - "invalid"

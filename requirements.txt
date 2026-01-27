@@ -1,0 +1,12 @@
+pandas
+numpy
+pyyaml
+matplotlib
+tqdm
+h5py
+
+openpyxl
+pyarrow
+
+scipy
+python-dateutil

@@ -1,0 +1,84 @@
+physics:
+  # -----------------------------
+  # 频率设置（Hz）
+  # -----------------------------
+  bands_hz:
+    C: 6.9e9
+    X: 10.65e9
+    Ku: 18.7e9
+
+  # -----------------------------
+  # VOD 标定：VOD = 4*pi*(b*hveg + a)/lambda * Im(sqrt(eps_canopy))
+  # 最小参数：每band 一组 a,b（H/V 共用；若后续要分极化再扩展）
+  # -----------------------------
+  vod_calibration:
+    C:  {a: 0.0, b: 1.0}
+    X:  {a: 0.0, b: 1.0}
+    Ku: {a: 0.0, b: 1.0}
+
+  # -----------------------------
+  # 冠层混合介质：空气 + 植被（两相）
+  # delta = 植被体积分数（0-1）
+  # -----------------------------
+  canopy_mixing:
+    model: "looyenga"        # ["looyenga", "bruggeman"]
+    delta_default: 0.15
+
+  # -----------------------------
+  # 植被介电常数：LFMC -> Mg -> epsilon_veg(f)
+  # 使用你截图的 Ulaby Debye–Cole 双弛豫形式（ulaby_dc）
+  #
+  # 说明：
+  # - salinity_permil: 盐度 S（‰），若df无该列，则使用默认值
+  # - sigma(S) = 0.16S - 0.0013S^2 (S/m)
+  # - 温度入口：用 LST 作为 canopy 温度代理，仅用于修正 sigma
+  #   sigma(T) = sigma(22C) * (1 + alpha*(T-22))
+  # -----------------------------
+  vegetation_dielectric:
+    model: "ulaby_dc"
+    salinity_default_permil: 0.0
+    clip_vfw_nonneg: true
+    clip_im_nonneg: true
+
+    # 不在物理介电公式中使用温度
+    temperature:
+      use_temperature: false
+      temp_col_k: "lst_k"
+      temp_col_c: null
+
+    # 保留占位模型参数位（若将 model 改成 rational 时才使用）
+    params:
+      eps_dry_re: 1.6
+      eps_dry_im: 0.05
+      k_re: 25.0
+      k_im: 10.0
+
+  # -----------------------------
+  # 拟合设置
+  # 最小版：只拟合每band的 a,b + delta
+  #
+  # 注意：
+  # - 当前 ulaby_dc 中 sigma 由 salinity+temp 给出（默认不拟合）
+  # - k_re/k_im 对 ulaby_dc 不起作用，因此不建议放进 fit_params
+  # -----------------------------
+  fit:
+    fit_params:
+      - "a_C"
+      - "b_C"
+      - "a_X"
+      - "b_X"
+      - "a_Ku"
+      - "b_Ku"
+      - "delta"
+
+    bounds:
+      # a 允许正负（吸收系统偏差），范围不宜过大
+      a: [-2.0, 2.0]
+      # b >= 0：冠层高度增加不会降低 VOD
+      b: [0.0, 5.0]
+      # 体积分数范围：像元尺度通常不应过大
+      delta: [0.0, 0.6]
+
+    # 鲁棒损失（减少异常点影响）
+    robust_loss: "soft_l1"   # least_squares loss: linear/soft_l1/huber/cauchy
+    f_scale: 0.5

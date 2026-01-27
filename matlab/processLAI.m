@@ -1,0 +1,147 @@
+%% GLASS LAI 8-day (0.05° -> 0.1° by 2x2 valid-mean) -> save as .h5
+clc; clear;
+
+inRoot  = "G:\data\GLASS LAI\005D\0.05D";
+outRoot = "G:\data\GLASS LAI\01nc";   % 你说“其余不变”，保持原路径变量名
+
+if ~exist(outRoot, 'dir')
+    mkdir(outRoot);
+end
+
+% ===== 自动获取所有 YYYY 文件夹（如果没有年份子文件夹，也会直接扫根目录）=====
+dirs = dir(inRoot);
+dirs = dirs([dirs.isdir]);
+
+yearDirs = {};
+for d = 1:numel(dirs)
+    dirname = dirs(d).name;
+    if strcmp(dirname, '.') || strcmp(dirname, '..')
+        continue
+    end
+    if ~isempty(regexp(dirname, '^\d{4}$', 'once'))
+        yearDirs{end+1} = fullfile(inRoot, dirname); %#ok<AGROW>
+    end
+end
+
+% 如果没有年份文件夹，就直接处理 inRoot 下的文件
+if isempty(yearDirs)
+    yearDirs = {inRoot};
+end
+
+% ===== 主循环 =====
+for yd = 1:numel(yearDirs)
+
+    inDir = yearDirs{yd};
+    fprintf("Scanning: %s\n", inDir);
+
+    files = dir(fullfile(inDir, "GLASS01B01*.hdf"));
+
+    for i = 1:numel(files)
+
+        inFile = fullfile(files(i).folder, files(i).name);
+
+        % ===== 从文件名中提取 YYYY 和 DOY，然后转 YYYYMMDD =====
+        % 文件示例：GLASS01B01.V60.AYYYYDOY.2022138.hdf
+        % 注意：A之后的字符串不固定 -> 只抓 A 后面的 YYYY(4) + DOY(3)
+        token = regexp(files(i).name, 'A(\d{4})(\d{3})\.', 'tokens', 'once');
+        if isempty(token)
+            fprintf("  [Skip] Cannot parse date from: %s\n", files(i).name);
+            continue
+        end
+
+        YYYY = str2double(token{1});
+        DOY  = str2double(token{2});
+
+        % DOY -> YYYYMMDD
+        dt = datenum(YYYY, 1, 1) + DOY - 1;
+        YYYYMMDD = string(datestr(dt, 'yyyymmdd'));
+
+        % ===== 输出改为 .h5 =====
+        outFile = fullfile(outRoot, YYYYMMDD + ".h5");
+        fprintf("  -> %s  (%s)\n", YYYYMMDD, files(i).name);
+
+        % ===== 读取 SDS: LAI =====
+        try
+            lai_raw = hdfread(inFile, "LAI");
+        catch ME
+            fprintf("  [Skip] Failed to read SDS 'LAI' from %s\n    %s\n", files(i).name, ME.message);
+            continue
+        end
+
+        lai_raw = double(lai_raw);
+
+        % ===== 原始有效值范围 0-100（未缩放）=====
+        lai_raw(lai_raw < 0 | lai_raw > 100) = NaN;
+
+        % ===== 缩放因子 0.1 =====
+        lai_005 = lai_raw * 0.1;     % 0.05°，尺寸应为 3600×7200
+
+        % ===== 0.05° -> 0.1°：2×2 网格仅对有效值求平均 =====
+        if size(lai_005,1) ~= 3600 || size(lai_005,2) ~= 7200
+            fprintf("  [Warn] Unexpected size %dx%d (expect 3600x7200). Still try 2x2...\n", ...
+                size(lai_005,1), size(lai_005,2));
+        end
+
+        lai_01 = blockMean2x2_valid(lai_005); % 输出 1800×3600
+
+        % ===== 写 HDF5（YYYYMMDD.h5）=====
+        if exist(outFile, 'file')
+            delete(outFile)
+        end
+
+        dset = "/LAI";
+
+        % 可选：压缩与分块（更省空间/更适合 Python 分块读）
+        chunkSize = [200 200];
+        h5create(outFile, dset, size(lai_01), ...
+            "Datatype", "double", ...
+            "ChunkSize", chunkSize, ...
+            "Deflate", 4);
+
+        h5write(outFile, dset, lai_01);
+
+        % ===== 属性 =====
+        h5writeatt(outFile, "/", "Product", "GLASS LAI");
+        h5writeatt(outFile, "/", "Temporal", "8-day");
+        h5writeatt(outFile, "/", "Resolution", "0.1 degree (aggregated from 0.05 degree by 2x2 valid-mean)");
+        h5writeatt(outFile, "/", "SDS_Name", "LAI");
+        h5writeatt(outFile, "/", "ScaleFactor", 0.1);
+        h5writeatt(outFile, "/", "ValidRangeRaw", "0-100 (before scaling)");
+        h5writeatt(outFile, "/", "Date", char(YYYYMMDD));
+        h5writeatt(outFile, "/", "SourceFile", files(i).name);
+
+        % 可选：把数组大小写进 dataset 属性（方便 Python 检查）
+        h5writeatt(outFile, dset, "Rows", int32(size(lai_01,1)));
+        h5writeatt(outFile, dset, "Cols", int32(size(lai_01,2)));
+
+    end
+end
+
+%% ====== local function: 2x2 valid mean ======
+function out = blockMean2x2_valid(A)
+    r = size(A,1);
+    c = size(A,2);
+
+    r2 = floor(r/2)*2;
+    c2 = floor(c/2)*2;
+    A = A(1:r2, 1:c2);
+
+    a11 = A(1:2:end, 1:2:end);
+    a21 = A(2:2:end, 1:2:end);
+    a12 = A(1:2:end, 2:2:end);
+    a22 = A(2:2:end, 2:2:end);
+
+    v11 = ~isnan(a11); v21 = ~isnan(a21);
+    v12 = ~isnan(a12); v22 = ~isnan(a22);
+
+    sumv = zeros(size(a11));
+    cnt  = zeros(size(a11));
+
+    sumv(v11) = sumv(v11) + a11(v11); cnt(v11) = cnt(v11) + 1;
+    sumv(v21) = sumv(v21) + a21(v21); cnt(v21) = cnt(v21) + 1;
+    sumv(v12) = sumv(v12) + a12(v12); cnt(v12) = cnt(v12) + 1;
+    sumv(v22) = sumv(v22) + a22(v22); cnt(v22) = cnt(v22) + 1;
+
+    out = sumv ./ cnt;
+    out(cnt == 0) = NaN;
+end
