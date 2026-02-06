@@ -2,12 +2,19 @@ lfmc:
   raw_path: "G:/data/Globe LFMC/Globe-LFMC-2.0 final.xlsx"
   sheet_name: "LFMC data"
 
-  # 输出路径（可按你习惯改）
+  # 输出路径
   out_dir: "G:/data/Globe LFMC/processed"
+
+  # --- 01 的核心产物（标准 / 严格 / 聚合 / A / B / report）---
   out_std_name: "lfmc_std.parquet"
-  out_dedup_name: "lfmc_site_day.parquet"
+  out_strict_name: "lfmc_strict_live.parquet"     # NEW：QC后严格样本表
+  out_dedup_name: "lfmc_site_day.parquet"         # 第7步：site-day-(veg_type)
+  out_schemeA_name: "lfmc_site_day_A_point_with_grid0p1.parquet"  # NEW：方案A
+  out_schemeB_name: "lfmc_grid_day_B_0p1deg.parquet"              # NEW：方案B（可选）
   out_report_name: "lfmc_qc_report.json"
-  out_grid_day_name: "lfmc_grid_day_0p1.parquet"
+
+  # 你原来的 out_grid_day_name 可以保留，但现在建议用 schemeB 统一命名
+  # out_grid_day_name: "lfmc_grid_day_0p1.parquet"
 
   # 是否把时间统一到日期（日尺度）
   normalize_to_date: true
@@ -15,8 +22,19 @@ lfmc:
   # 同站点同日重复观测合并策略：median / mean / last
   dedup_strategy: "median"
 
+  # （可选）像元聚合策略（7.5 B），默认沿用 dedup_strategy
+  grid_dedup_strategy: "mean"
+
+  # --------- 站点聚合口径（你现在用经纬度量化代替 site_id）---------
+  group_by_location: true                # NEW：与 01 里 group_by_location=True 对齐
+  location_precision_deg: 1.0e-4         # NEW：约 11m（赤道）
+  location_id_col: "site_loc_id"         # NEW：输出列名
+
+  # --------- 额外保留字段（IGBP 500m）---------
+  keep_igbp: true                        # NEW：保留 IGBP（用于 Unknown 补判/一致性检查）
+  igbp_col: "IGBP Land Cover"            # NEW：你的实测表里已有这一列
+
   # ---------- 字段映射（允许为空，代码会兜底猜测） ----------
-  # 如果你明确知道列名，填在这里最稳
   columns:
     sorting_id: "Sorting ID"
     site_name: "Site Name"
@@ -27,23 +45,23 @@ lfmc:
 
     lfmc: "LFMC (%)"
 
-    # 这两个字段在论文中存在（如果你的表里列名略有不同，可改）
     extra_info_flag: "Extra Info Flag"
     isolated_iforest: "Isolated data point"
 
-    # 可选元数据列（不影响清洗主流程）
     species: "Species collected"
     functional_type: "Species functional type"
     individual_or_mean: "Individual or mean"
     protocol: "Protocol"
     source: "Database"
 
+    # NEW（可选）：如果你后续想在 01 里显式保留/传递 IGBP 也可放这里
+    igbp_landcover: "IGBP Land Cover"
+
   # ---------- 基础合理范围 ----------
   lfmc_min: 0
   lfmc_max: 400
 
   # ---------- 文本关键词：从 extra_info_flag 提取“提供者疑似异常提示” ----------
-  # 这里是弱提示，不删数据，只做 provider_suspect_flag
   suspect_keywords:
     - "outlier"
     - "anomal"
