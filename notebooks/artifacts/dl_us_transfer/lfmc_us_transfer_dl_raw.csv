@@ -1,0 +1,5 @@
+﻿scheme,scheme_desc,model,repeat,split,n,MAE,RMSE,R
+US_TRANSFER_S6_LITE,US train/val + external world test on S6-lite,MoE_ResNetMLP,1,train_us,23519,18.046890258789062,25.913806915283203,0.7227838535078416
+US_TRANSFER_S6_LITE,US train/val + external world test on S6-lite,MoE_ResNetMLP,1,val_us_overlap,9723,18.40997314453125,26.081445693969727,0.6842803360178185
+US_TRANSFER_S6_LITE,US train/val + external world test on S6-lite,MoE_ResNetMLP,1,val_us_nonoverlap,661,27.573793411254883,35.748565673828125,0.43618295792519385
+US_TRANSFER_S6_LITE,US train/val + external world test on S6-lite,MoE_ResNetMLP,1,test_external,764,41.41203308105469,52.64414596557617,0.337892439917767

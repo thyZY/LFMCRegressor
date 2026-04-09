@@ -1,0 +1,19 @@
+{
+  "model_name": "CatBoost",
+  "num_cols": [
+    "VOD_Ku_Hpol_Asc",
+    "VOD_Ku_Vpol_Asc",
+    "VOD_X_Hpol_Asc",
+    "VOD_X_Vpol_Asc",
+    "VOD_C_Hpol_Asc",
+    "VOD_C_Vpol_Asc",
+    "LAI",
+    "Hveg",
+    "LST",
+    "doy_sin",
+    "doy_cos",
+    "lat_norm"
+  ],
+  "cat_col": "lc_dom",
+  "encoder": null
+}

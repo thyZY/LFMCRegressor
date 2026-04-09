@@ -1,0 +1,4 @@
+﻿split,n_blocks
+train,484
+test,61
+val,60

@@ -1,0 +1,4 @@
+﻿scheme,scheme_desc,model,repeat,split,n,window_size,MAE,RMSE,R
+FINAL_S6_LITE_TEMPORAL,dual-branch temporal cnn on S6-lite windows,DualBranchTemporalCNN,1,train,25707,4,19.327502886305872,27.757162967102925,0.6738210060678339
+FINAL_S6_LITE_TEMPORAL,dual-branch temporal cnn on S6-lite windows,DualBranchTemporalCNN,1,val,3317,4,20.61662519039215,28.784055370539203,0.6367039102112777
+FINAL_S6_LITE_TEMPORAL,dual-branch temporal cnn on S6-lite windows,DualBranchTemporalCNN,1,test,3027,4,19.60885673172607,27.127993656221786,0.6491358568555267

@@ -1,0 +1,10 @@
+﻿scheme,scheme_desc,model,repeat,split,n,MAE,RMSE,R
+FINAL_S6_LITE,lc_dom + VOD + LAI/Hveg/LST + doy_sin/doy_cos/lat_norm + consistency,CatBoost,1,train,27802,17.46630525691429,26.039930256043796,0.7353892597470972
+FINAL_S6_LITE,lc_dom + VOD + LAI/Hveg/LST + doy_sin/doy_cos/lat_norm + consistency,CatBoost,1,val,3575,19.586376919864502,27.68734131874487,0.6752761348441778
+FINAL_S6_LITE,lc_dom + VOD + LAI/Hveg/LST + doy_sin/doy_cos/lat_norm + consistency,CatBoost,1,test,3290,18.245818114486895,25.642646637475703,0.7292750512147178
+FINAL_S6_LITE,lc_dom + VOD + LAI/Hveg/LST + doy_sin/doy_cos/lat_norm + consistency,LightGBM,1,train,27802,12.019777263507562,20.596922696055852,0.8497720356105914
+FINAL_S6_LITE,lc_dom + VOD + LAI/Hveg/LST + doy_sin/doy_cos/lat_norm + consistency,LightGBM,1,val,3575,20.68737022119238,29.14042012576749,0.627754663814692
+FINAL_S6_LITE,lc_dom + VOD + LAI/Hveg/LST + doy_sin/doy_cos/lat_norm + consistency,LightGBM,1,test,3290,18.680213263750286,26.296242880262223,0.7052386094924814
+FINAL_S6_LITE,lc_dom + VOD + LAI/Hveg/LST + doy_sin/doy_cos/lat_norm + consistency,XGBoost,1,train,27802,10.587147747931908,18.94672613282551,0.8790053621338677
+FINAL_S6_LITE,lc_dom + VOD + LAI/Hveg/LST + doy_sin/doy_cos/lat_norm + consistency,XGBoost,1,val,3575,20.642661346198285,28.629140720394755,0.6411730943525948
+FINAL_S6_LITE,lc_dom + VOD + LAI/Hveg/LST + doy_sin/doy_cos/lat_norm + consistency,XGBoost,1,test,3290,18.599320255529285,26.1937057885315,0.7137726297438102

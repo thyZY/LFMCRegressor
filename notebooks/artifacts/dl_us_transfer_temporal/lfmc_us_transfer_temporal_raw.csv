@@ -1,0 +1,5 @@
+﻿scheme,scheme_desc,model,repeat,split,n,window_size,MAE,RMSE,R
+US_TRANSFER_TEMPORAL,US train/val + external world test with temporal models,TemporalCNN_TabNetStatic_MoE,1,train_us,21578,4,18.964182905143577,26.965860744740734,0.705097678981254
+US_TRANSFER_TEMPORAL,US train/val + external world test with temporal models,TemporalCNN_TabNetStatic_MoE,1,val_us_overlap,9530,4,18.837166941903945,26.7850041879022,0.658433072183348
+US_TRANSFER_TEMPORAL,US train/val + external world test with temporal models,TemporalCNN_TabNetStatic_MoE,1,val_us_nonoverlap,466,4,24.58402362708882,35.369917450012416,0.41896768107899135
+US_TRANSFER_TEMPORAL,US train/val + external world test with temporal models,TemporalCNN_TabNetStatic_MoE,1,test_external,477,4,143.02278914341636,258.2054452526749,0.11157245986571303

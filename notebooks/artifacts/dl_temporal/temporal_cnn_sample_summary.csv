@@ -1,0 +1,4 @@
+﻿split,n_window_samples
+test,3027
+train,25707
+val,3317

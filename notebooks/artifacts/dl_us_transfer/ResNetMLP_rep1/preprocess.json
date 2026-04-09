@@ -1,0 +1,61 @@
+{
+  "num_cols": [
+    "VOD_Ku_Hpol_Asc",
+    "VOD_Ku_Vpol_Asc",
+    "VOD_X_Hpol_Asc",
+    "VOD_X_Vpol_Asc",
+    "VOD_C_Hpol_Asc",
+    "VOD_C_Vpol_Asc",
+    "LAI",
+    "Hveg",
+    "LST",
+    "doy_sin",
+    "doy_cos",
+    "lat_norm"
+  ],
+  "cat_col": "lc_dom",
+  "stats": {
+    "mean": {
+      "VOD_Ku_Hpol_Asc": 0.7850585319824157,
+      "VOD_Ku_Vpol_Asc": 0.8771495568292087,
+      "VOD_X_Hpol_Asc": 0.6652010359207252,
+      "VOD_X_Vpol_Asc": 0.7466057186728331,
+      "VOD_C_Hpol_Asc": 0.5744602726583609,
+      "VOD_C_Vpol_Asc": 0.5684604522456096,
+      "LAI": 1.0959608719076621,
+      "Hveg": 7.515992414838875,
+      "LST": 304.7034710311095,
+      "doy_sin": -0.12361834943294525,
+      "doy_cos": -0.5304943919181824,
+      "lat_norm": 0.4429647922515869
+    },
+    "std": {
+      "VOD_Ku_Hpol_Asc": 0.2443252130027096,
+      "VOD_Ku_Vpol_Asc": 0.3819713086834666,
+      "VOD_X_Hpol_Asc": 0.21625232501031103,
+      "VOD_X_Vpol_Asc": 0.3184552764251814,
+      "VOD_C_Hpol_Asc": 0.17975730049132632,
+      "VOD_C_Vpol_Asc": 0.2553601451595209,
+      "LAI": 0.9197532999658239,
+      "Hveg": 8.014911114615792,
+      "LST": 10.751301484847763,
+      "doy_sin": 0.6549559831619263,
+      "doy_cos": 0.5237907767295837,
+      "lat_norm": 0.05129210278391838
+    }
+  },
+  "encoder": {
+    "mapping": {
+      "CRO": 0,
+      "CSH": 1,
+      "DBF": 2,
+      "ENF": 3,
+      "GRA": 4,
+      "MF": 5,
+      "OSH": 6,
+      "SAV": 7,
+      "WSA": 8
+    },
+    "unk_id": 9
+  }
+}

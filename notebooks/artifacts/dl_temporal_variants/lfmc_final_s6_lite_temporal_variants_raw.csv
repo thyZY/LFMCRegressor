@@ -1,0 +1,4 @@
+﻿scheme,scheme_desc,model,repeat,split,n,window_size,MAE,RMSE,R
+FINAL_S6_LITE_TEMPORAL_VARIANTS,temporal cnn variants on original spatially independent split,TemporalCNN_MoE,1,train,25707,4,19.45902186100034,27.742495834195537,0.6729492873392999
+FINAL_S6_LITE_TEMPORAL_VARIANTS,temporal cnn variants on original spatially independent split,TemporalCNN_MoE,1,val,3317,4,20.415669014269163,28.385617675234883,0.6427998047437586
+FINAL_S6_LITE_TEMPORAL_VARIANTS,temporal cnn variants on original spatially independent split,TemporalCNN_MoE,1,test,3027,4,18.96753011476021,26.432897942508358,0.6713467566092517

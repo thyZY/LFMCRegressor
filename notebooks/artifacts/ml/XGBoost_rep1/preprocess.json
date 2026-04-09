@@ -1,0 +1,33 @@
+{
+  "model_name": "XGBoost",
+  "num_cols": [
+    "VOD_Ku_Hpol_Asc",
+    "VOD_Ku_Vpol_Asc",
+    "VOD_X_Hpol_Asc",
+    "VOD_X_Vpol_Asc",
+    "VOD_C_Hpol_Asc",
+    "VOD_C_Vpol_Asc",
+    "LAI",
+    "Hveg",
+    "LST",
+    "doy_sin",
+    "doy_cos",
+    "lat_norm"
+  ],
+  "cat_col": "lc_dom",
+  "encoder": {
+    "mapping": {
+      "CRO": 0,
+      "CSH": 1,
+      "DBF": 2,
+      "EBF": 3,
+      "ENF": 4,
+      "GRA": 5,
+      "MF": 6,
+      "OSH": 7,
+      "SAV": 8,
+      "WSA": 9
+    },
+    "unk_id": 10
+  }
+}

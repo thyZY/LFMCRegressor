@@ -1,0 +1,10 @@
+﻿scheme,scheme_desc,model,repeat,split,n,MAE,RMSE,R
+FINAL_S6_LITE_PROD,lc_dom + VOD + LAI/Hveg/LST + doy_sin/doy_cos/lat_norm + nonveg_skip,CatBoost,1,train,38435,17.45324523832874,25.961816053546876,0.7258897086614091
+FINAL_S6_LITE_PROD,lc_dom + VOD + LAI/Hveg/LST + doy_sin/doy_cos/lat_norm + nonveg_skip,CatBoost,1,val,4821,17.730137268572047,25.793179903502143,0.5409863251766195
+FINAL_S6_LITE_PROD,lc_dom + VOD + LAI/Hveg/LST + doy_sin/doy_cos/lat_norm + nonveg_skip,CatBoost,1,test,3944,19.566149786734556,28.13465100820582,0.6328449858887021
+FINAL_S6_LITE_PROD,lc_dom + VOD + LAI/Hveg/LST + doy_sin/doy_cos/lat_norm + nonveg_skip,LightGBM,1,train,38435,12.1792803106053,20.53161458890465,0.8449788485969121
+FINAL_S6_LITE_PROD,lc_dom + VOD + LAI/Hveg/LST + doy_sin/doy_cos/lat_norm + nonveg_skip,LightGBM,1,val,4821,18.489602565922684,26.309950514758473,0.5322611897537273
+FINAL_S6_LITE_PROD,lc_dom + VOD + LAI/Hveg/LST + doy_sin/doy_cos/lat_norm + nonveg_skip,LightGBM,1,test,3944,20.404139749186083,28.88565387175494,0.6112657790783681
+FINAL_S6_LITE_PROD,lc_dom + VOD + LAI/Hveg/LST + doy_sin/doy_cos/lat_norm + nonveg_skip,XGBoost,1,train,38435,10.68965978830142,18.930556107433862,0.8750864847118897
+FINAL_S6_LITE_PROD,lc_dom + VOD + LAI/Hveg/LST + doy_sin/doy_cos/lat_norm + nonveg_skip,XGBoost,1,val,4821,18.454752996994685,26.21935088503143,0.5298201627343289
+FINAL_S6_LITE_PROD,lc_dom + VOD + LAI/Hveg/LST + doy_sin/doy_cos/lat_norm + nonveg_skip,XGBoost,1,test,3944,20.411723428999682,28.903933620476543,0.6064628591554905
